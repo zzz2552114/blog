@@ -1,9 +1,12 @@
 from fastapi import FastAPI
-from datetime import datetime,UTC
+from .router import health,posts
 from fastapi.middleware.cors import CORSMiddleware
+
 
 app = FastAPI()
 
+app.include_router(health.router)
+app.include_router(posts.router)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://127.0.0.1:5500","http://localhost:5500","http://127.0.0.1:8000","http://localhost:8000"],
@@ -12,9 +15,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/health")
-def health():
-    return {"status" : "ok","time" : str(datetime.now(UTC))[0:-16]+" (UTC)"}
 
 
 
